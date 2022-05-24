@@ -115,11 +115,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 // TODO: загрузить данные пользователя из БД
 // и заполнить переменную $values,
 // предварительно санитизовав.
-  $user = 'u24224';
-  $password = '1546096';
-  $db = new PDO('mysql:host=localhost;dbname=u24224', $user, $password, array(PDO::ATTR_PERSISTENT => true));
+  $user = 'u47525';
+  $password = '1167408';
+  $db = new PDO('mysql:host=localhost;dbname=u47525', $user, $password, array(PDO::ATTR_PERSISTENT => true));
   $uid = $_SESSION['uid'];
-  $res= $db->query("SELECT fio, email, year, pol, limb, biography FROM application WHERE id = $uid");
+  $res= $db->query("SELECT fio, email, year, pol, limb, biography FROM application2 WHERE id = $uid");
   foreach($res as $el){
     $values['fio']=strip_tags($el['fio']);
     $values['email']=strip_tags($el['email']);
@@ -243,9 +243,9 @@ else {
     // TODO: тут необходимо удалить остальные Cookies.
   }
 
-  $user = 'u24224';
-  $password = '1546096';
-  $db = new PDO('mysql:host=localhost;dbname=u24224', $user, $password, array(PDO::ATTR_PERSISTENT => true));
+  $user = 'u47525';
+  $password = '1167408';
+  $db = new PDO('mysql:host=localhost;dbname=u47525', $user, $password, array(PDO::ATTR_PERSISTENT => true));
 
 // Проверяем меняются ли ранее сохраненные данные или отправляются новые.
     if (!empty($_COOKIE[session_name()]) &&
@@ -254,7 +254,7 @@ else {
 // кроме логина и пароля.
 try {
   $uid = $_SESSION['uid'];
-  $stmt = $db->prepare("UPDATE application SET fio = ?, email = ?, year = ?, pol = ?, limb = ?, biography = ? WHERE id = $uid");
+  $stmt = $db->prepare("UPDATE application2 SET fio = ?, email = ?, year = ?, pol = ?, limb = ?, biography = ? WHERE id = $uid");
   $stmt -> execute([$_POST['fio'],$_POST['email'],$_POST['year'],$_POST['gender'],$_POST['limbs'],$_POST['biography']]);
   
   $db->query("DELETE FROM spw WHERE id = $uid");
@@ -289,7 +289,7 @@ setcookie('password', $password);
 try {
   $str = implode(',',$_POST['power']);
   
-  $stmt = $db->prepare("INSERT INTO application SET fio = ?, email = ?, year = ?, pol = ?, limb = ?, biography = ?");
+  $stmt = $db->prepare("INSERT INTO application2 SET fio = ?, email = ?, year = ?, pol = ?, limb = ?, biography = ?");
   $stmt -> execute([$_POST['fio'],$_POST['email'],$_POST['year'],$_POST['gender'],$_POST['limbs'],$_POST['biography']]);
 
   $id = $db->lastInsertId();
