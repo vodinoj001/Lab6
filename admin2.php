@@ -50,7 +50,7 @@ print('Вы успешно авторизовались.');
 // *********
 $user = 'u47525';
 $pass = '1167408';
-$db = new PDO('mysql:host=localhost;dbname=u24224', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+$db = new PDO('mysql:host=localhost;dbname=u47525', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 
 $data = $db->query("SELECT * FROM application2");
 $result = $data->fetchALL(PDO::FETCH_ASSOC);
