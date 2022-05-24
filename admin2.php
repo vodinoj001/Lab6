@@ -24,7 +24,7 @@ if (empty($_SERVER['PHP_AUTH_USER']) || empty($_SERVER['PHP_AUTH_PW'])) {
   header('WWW-Authenticate: Basic realm="My site"');
 }
 $usLogin = $_SERVER['PHP_AUTH_USER'];
-$usHash = md5($_SERVER['PHP_AUTH_PW']);
+$usHash = $_SERVER['PHP_AUTH_PW'];
 
 $user = 'u47525';
 $pass = '1167408';
