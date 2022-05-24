@@ -21,15 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('save', '', 100000);
     setcookie('login', '', 100000); 
-    setcookie('password', '', 100000); 
+    setcookie('pass', '', 100000); 
     // Если есть параметр save, то выводим сообщение пользователю.
     $messages[] = 'Спасибо, результаты сохранены.';
   }
-    if (!empty($_COOKIE['password'])) {
+    if (!empty($_COOKIE['pass'])) {
         $messages[] = sprintf('Вы можете <a href="login.php">войти</a> с логином <strong>%s</strong>
           и паролем <strong>%s</strong> для изменения данных.',
           strip_tags($_COOKIE['login']),
-          strip_tags($_COOKIE['password']));
+          strip_tags($_COOKIE['pass']));
   }
 
   // Складываем признак ошибок в массив.
@@ -116,8 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 // и заполнить переменную $values,
 // предварительно санитизовав.
   $user = 'u47525';
-  $password = '1167408';
-  $db = new PDO('mysql:host=localhost;dbname=u47525', $user, $password, array(PDO::ATTR_PERSISTENT => true));
+  $pass = '1167408';
+  $db = new PDO('mysql:host=localhost;dbname=u47525', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
   $uid = $_SESSION['uid'];
   $res= $db->query("SELECT fio, email, year, pol, limb, biography FROM application2 WHERE id = $uid");
   foreach($res as $el){
@@ -244,8 +244,8 @@ else {
   }
 
   $user = 'u47525';
-  $password = '1167408';
-  $db = new PDO('mysql:host=localhost;dbname=u47525', $user, $password, array(PDO::ATTR_PERSISTENT => true));
+  $pass = '1167408';
+  $db = new PDO('mysql:host=localhost;dbname=u47525', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 
 // Проверяем меняются ли ранее сохраненные данные или отправляются новые.
     if (!empty($_COOKIE[session_name()]) &&
@@ -272,10 +272,10 @@ catch(PDOException $e){
 // Генерируем уникальный логин и пароль.
 // TODO: сделать механизм генерации, например функциями rand(), uniquid(), md5(), substr().
 $login = substr(uniqid(time()),1,8);
-$password = substr(md5($_POST['email']),5,8);
+$pass = substr(md5($_POST['email']),5,8);
 // Сохраняем в Cookies.
 setcookie('login', $login);
-setcookie('password', $password);
+setcookie('pass', $pass);
 
 // TODO: Сохранение данных формы, логина и хеш md5() пароля в базу данных.
 // ...
@@ -293,8 +293,8 @@ try {
   $stmt -> execute([$_POST['fio'],$_POST['email'],$_POST['year'],$_POST['gender'],$_POST['limbs'],$_POST['biography']]);
 
   $id = $db->lastInsertId();
-  $stmt = $db->prepare("INSERT INTO baza SET id = ?, login = ?, password = ?");
-  $stmt -> execute([$id,$login,md5($password)]);
+  $stmt = $db->prepare("INSERT INTO baza SET id = ?, login = ?, pass = ?");
+  $stmt -> execute([$id,$login,md5($pass)]);
 
   $stmt = $db->prepare("INSERT INTO spw SET id = ?, nom_spw = ?");
   foreach($_POST['power'] as $el)
