@@ -27,8 +27,8 @@ $usLogin = $_SERVER['PHP_AUTH_USER'];
 $usHash = md5($_SERVER['PHP_AUTH_PW']);
 
 $user = 'u47525';
-$password = '1167408';
-$db = new PDO('mysql:host=localhost;dbname=u47525', $user, $password, array(PDO::ATTR_PERSISTENT => true));
+$pass = '1167408';
+$db = new PDO('mysql:host=localhost;dbname=u47525', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 
 $data = $db->query("SELECT * FROM adm WHERE login ='$usLogin' and hash ='$usHash'");
 $result = $data->fetchALL(PDO::FETCH_ASSOC);
@@ -49,10 +49,10 @@ print('Вы успешно авторизовались.');
 // Реализовать просмотр и удаление всех данных.
 // *********
 $user = 'u47525';
-$password = '1167408';
-$db = new PDO('mysql:host=localhost;dbname=u24224', $user, $password, array(PDO::ATTR_PERSISTENT => true));
+$pass = '1167408';
+$db = new PDO('mysql:host=localhost;dbname=u24224', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 
-$data = $db->query("SELECT * FROM application");
+$data = $db->query("SELECT * FROM application2");
 $result = $data->fetchALL(PDO::FETCH_ASSOC);
 
 $data = $db->query("SELECT * FROM baza");
@@ -67,7 +67,7 @@ if (isset($_GET['del_id'])) {
   $data2->execute();
   $data3 = $db->query("DELETE FROM baza WHERE id='$del'");
   $data3->execute();
-  $data1 = $db->query("DELETE FROM application WHERE id='$del'");
+  $data1 = $db->query("DELETE FROM application2 WHERE id='$del'");
   $data1->execute();
   header('Location: admin2.php');
 }
@@ -149,7 +149,7 @@ if (!empty($_POST['edit_it'])){
             <tr>
               <td><?= $value['id'] ?></td>
               <td><?= $value['login'] ?></td>
-              <td><?= $value['password'] ?></td>
+              <td><?= $value['pass'] ?></td>
             </tr>
           <?php endforeach; ?>
 
