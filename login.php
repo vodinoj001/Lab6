@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
   $errors = array();
   $errors['login'] = !empty($_COOKIE['login_error']);
-  $errors['password'] = !empty($_COOKIE['pass_error']);
+  $errors['pass'] = !empty($_COOKIE['pass_error']);
   $errors['avtor'] = !empty($_COOKIE['avtor_error']);
   
   if ($errors['login']) {
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     // Выводим сообщение.
     $messages[] = '<div class="error">Заполните логин.</div>';
   }
-  if ($errors['password']) {
+  if ($errors['pass']) {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('pass_error', '', 100000);
     // Выводим сообщение.
@@ -94,7 +94,7 @@ if (!empty($messages) && empty($mes)) {
                     <input name="login" <?php if ($errors['login'] || $errors['avtor']) {print 'class="error"';} ?> /><br/>
                   Пароль:
                   <br/>
-                    <input name="password" <?php if ($errors['password'] || $errors['avtor']) {print 'class="error"';} ?>/><br/><br/>
+                    <input name="pass" <?php if ($errors['pass'] || $errors['avtor']) {print 'class="error"';} ?>/><br/><br/>
                     <input type="submit" value="Войти" />
                 </form>
             </div>
@@ -111,7 +111,7 @@ else {
     setcookie('login_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
   }
-  if (empty($_POST['password'])) {
+  if (empty($_POST['pass'])) {
     setcookie('pass_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
   }
@@ -119,24 +119,24 @@ else {
   // TODO: Проверть есть ли такой логин и пароль в базе данных.
   // Выдать сообщение об ошибках.
   $l=$_POST['login'];
-  $p=md5($_POST['password']);
+  $p=md5($_POST['pass']);
 
-  $user = 'u24224';
-  $password = '1546096';
-  $db = new PDO('mysql:host=localhost;dbname=u24224', $user, $password, array(PDO::ATTR_PERSISTENT => true));
+  $user = 'u47525';
+  $pass = '1167408';
+  $db = new PDO('mysql:host=localhost;dbname=u47525', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 
   $sel = $db->query("SELECT login FROM baza WHERE login = $l");
     foreach($sel as $el)
       $login=$el['login'];
-  $sel = $db->query("SELECT password FROM baza WHERE login = $l");
+  $sel = $db->query("SELECT pass FROM baza WHERE login = $l");
     foreach($sel as $el)
-      $pas=$el['password'];
+      $pas=$el['pass'];
 
   // Если все ок, то авторизуем пользователя.
   if (!empty($login) && !empty($pas) && $p==$pas){
   $_SESSION['login'] = $_POST['login'];
   $p2=$db->quote($p);
-  $sel = $db->query("SELECT id FROM baza WHERE login=$l AND password=$p2");
+  $sel = $db->query("SELECT id FROM baza WHERE login=$l AND pass=$p2");
   foreach($sel as $el)
     $id = (int)$el['id'];
   // Записываем ID пользователя.
